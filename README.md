@@ -3,7 +3,7 @@
   # About the Project
 The Airbnb Clone Project is a comprehensive, real-world application designed to simulate the development of a robust booking platform like Airbnb. It involves a deep dive into full-stack development, focusing on backend systems, database design, API development, and application security. This project enables learners to understand complex architectures, workflows, and collaborative team dynamics while building a scalable web application.
 
-  #🛠️ Features Overview
+   # ⚡Features Overview
   
 1. API Documentation
 - OpenAPI Standard: The backend APIs are documented using the OpenAPI standard to ensure clarity and ease of integration.
@@ -28,7 +28,8 @@ The Airbnb Clone Project is a comprehensive, real-world application designed to 
 - Indexing: Implement indexes for fast retrieval of frequently accessed data.
 - Caching: Use caching strategies to reduce database load and improve performance.
 
-  #⚙️ Technology Stack
+  # ⚙️Technology Stack
+  
 - Django: A high-level Python web framework used for building the RESTful API.
 - Django REST Framework: Provides tools for creating and managing RESTful APIs.
 - PostgreSQL: A powerful relational database used for data storage.
