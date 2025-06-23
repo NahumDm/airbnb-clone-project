@@ -48,47 +48,75 @@ The Airbnb Clone Project is a comprehensive, real-world application designed to 
 - GraphQL API: Provides a flexible query language for retrieving and manipulating data.
 
 # 📌 Database Design Overview
-Entities & Key Fields:
 - Users
-id, username, email, password, is_host
-A user can have many bookings and many listed properties.
+  - Fields: id, username, email, password_hash, is_host, date_joined
+  - Relationships: One-to-many with properties (as hosts), and bookings (as guests).
+  - Users can leave multiple reviews and make multiple bookings.
 - Properties
-id, title, description, price, owner (FK to User)
-A user (host) can list multiple properties.
+  - Fields: id, title, description, price, location, owner_id (FK to User)
+  - Relationships: One-to-many with bookings and reviews.
+  - Each property belongs to one host and can be booked many times.
 - Bookings
-id, user (FK), property (FK), start_date, end_date
-Each booking is linked to one user and one property.
+  - Fields: id, user_id (FK), property_id (FK), start_date, end_date, status
+  - Relationships: One-to-one with a payment; one-to-many with users.
+  - A booking is always tied to a specific property and user.
 - Payments
-id, booking (FK), amount, status, timestamp
-Each payment is associated with a booking.
+  - Fields: id, booking_id (FK), amount, payment_method, timestamp, status
+  - Relationships: One-to-one with a booking.
+  - Each booking has one associated payment for auditing and tracking.
 - Reviews
-id, user (FK), property (FK), rating, comment
-A user can leave one review per property per booking.
+  - Fields: id, user_id (FK), property_id (FK), rating, comment, created_at
+  - Relationships: Many-to-one with both users and properties.
+  - Reviews are left by users for properties they’ve booked and stayed in.
 
 # ⚙️ Feature Breakdown
 - User Management
-Handles registration, authentication, and profile updates. Enables secure access control and user tracking.
+  - Enables users to register, log in, and manage their profile securely.
+  - Supports roles like guest or host and handles password hashing and token-based authentication.
+  - Crucial for establishing a secure and personalized user environment.
 - Property Management
-Allows hosts to create, update, and delete property listings. Powers the core business logic of the platform.
+  - Allows hosts to list properties with details like pricing, description, location, and availability.
+  - Users can browse and filter listings based on criteria such as price and rating.
+  - Forms the core of the platform by enabling property discovery and engagement.
 - Booking System
-Lets users reserve properties, manage check-in/check-out. Essential for reservation flow and availability control.
+  - Users can reserve available properties by selecting dates and confirming the booking.
+  - The system checks for availability, prevents overlapping bookings, and stores reservation details.
+  - Vital for managing the rental lifecycle and generating revenue.
 - Payment Processing
-Integrates payment gateway to handle transactions. Ensures bookings are paid and transaction data is stored securely.
+  - Handles transaction initiation, confirmation, and logging through integrated payment services.
+  - Verifies successful transactions and links them to bookings.
+  - Ensures that all monetary exchanges are secure and recorded.
 - Review System
-Enables users to rate and review properties. Builds trust and community feedback.
-
-# API Documentation
-- REST & GraphQL support using OpenAPI. Ensures clear and standard-based integration.
+  - Allows users to leave feedback and ratings after completing a stay.
+  - Each review is linked to a booking and visible on the property page.
+  - Builds platform trust, credibility, and improves listing transparency.
+- API Documentation
+  - Uses OpenAPI for REST and supports GraphQL queries.
+  - Helps frontend developers and integrators understand API usage and test endpoints.
+  - Ensures developer-friendly communication with the backend.
 - Database Optimization
-- Indexing and caching to improve response time and reduce load on the database.
+  - Adds indexes to frequently queried fields and applies caching where necessary.
+  - Reduces query times and enhances scalability under high load.
+  - Supports efficient performance and better user experience.
 
-# 🔐 API Security Overview
-- Authentication: JWT-based login to secure endpoints.
-- Authorization: Role-based access to restrict actions (e.g., only hosts can list properties).
-- Rate Limiting: Prevent abuse and protect resources with throttling.
-- Why Important: Protects user data, ensures payment integrity, and defends against common attacks like brute force or injection.
+# 🔐 API Security
+- Authentication
+  - Uses JWT to secure user sessions and restrict access to authenticated users only.
+  - Why: Ensures user identity is verified before accessing protected endpoints, preventing unauthorized access.
+- Authorization
+  - Role-based permissions (e.g., only hosts can create properties, only booking owners can cancel).
+  - Why: Prevents users from performing actions beyond their roles or ownership, protecting data integrity.
+- Rate Limiting
+  - Limits the number of requests per user/IP over time.
+  - Why: Prevents abuse (e.g., brute force login attempts or denial-of-service attacks) and protects server resources.
+- Data Validation & Error Handling
+  - Validates incoming request data and returns structured error messages.
+  - Why: Prevents malformed inputs and potential injection attacks.
+- Secure Payment Handling
+  - Ensures that payment information is encrypted and only accessible through secure endpoints.
+  - Why: Prevents fraud and protects sensitive financial transactions.
 
-# 🔄 CI/CD Pipeline Overview
+# 🔄 CI/CD Pipeline
 - What It Is: Automates code testing, building, and deployment to improve development speed and reliability.
 - Why It Matters: Ensures every change is tested and deployed seamlessly with minimal manual effort.
 
